@@ -13,6 +13,28 @@ public class MinBinaryHeap<T extends Comparable<T>> implements IPriorityQueue<T>
         arrayTree = (T[]) new Comparable[INITIAL_TREE_SIZE];
     }
 
+    public MinBinaryHeap(T[] elementsToInsert)
+    {
+        //insert all elements in the input array
+        arrayTree = (T[]) new Comparable[elementsToInsert.length + 1]; //make room for unoccupied index zero
+
+        //copy over the elements
+        for (int i = 0; i < elementsToInsert.length; i++)
+        {
+            //careful to skip index zero... (i + 1)
+            arrayTree[i + 1] = elementsToInsert[i];
+        }
+
+        //change our size/next index variable
+        nextUnusedIndex = elementsToInsert.length;
+
+        //heapify!
+        for (int i = size() / 2; i >= 1; i--)
+        {
+            sink(i);
+        }
+    }
+
     private void insert(T element)
     {
         //if we run out of room

@@ -1,3 +1,5 @@
+package movies;
+
 public class FavoriteMovie implements Comparable<FavoriteMovie>
 {
     private int stars;
@@ -12,7 +14,7 @@ public class FavoriteMovie implements Comparable<FavoriteMovie>
     @Override
     public int compareTo(FavoriteMovie other)
     {
-        return stars - other.stars;
+        return name.compareTo(other.name);
     }
 
     public int getStars()
@@ -28,7 +30,7 @@ public class FavoriteMovie implements Comparable<FavoriteMovie>
     @Override
     public String toString()
     {
-        return "FavoriteMovie{" +
+        return "movies.FavoriteMovie{" +
                 "stars=" + stars +
                 ", name='" + name + '\'' +
                 '}';
