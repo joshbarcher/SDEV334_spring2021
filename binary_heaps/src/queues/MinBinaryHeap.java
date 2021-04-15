@@ -88,25 +88,80 @@ public class MinBinaryHeap<T extends Comparable<T>> implements IPriorityQueue<T>
     @Override
     public T remove()
     {
-        return null;
+        checkForEmptyHeap();
+
+        //save my return value
+        T result = arrayTree[1];
+
+        //reorder the heap
+        arrayTree[1] = arrayTree[nextUnusedIndex - 1];
+        arrayTree[nextUnusedIndex - 1] = null;
+        nextUnusedIndex--;
+
+        sink(1);
+
+        return result;
+    }
+
+    private void sink(int parentIndex)
+    {
+        //loop as long as the index has a child (the last child is at index size() / 2)
+        while (parentIndex <= size() / 2)
+        {
+            int leftIndex = 2 * parentIndex;
+            int rightIndex = 2 * parentIndex + 1;
+
+            //determine which child is smaller?
+            int smallestIndex = leftIndex;
+            if (rightIndex < nextUnusedIndex && arrayTree[rightIndex].compareTo(arrayTree[leftIndex]) < 0)
+            {
+                smallestIndex = rightIndex;
+            }
+
+            //then compare the smallest child with the current node
+            if (arrayTree[parentIndex].compareTo(arrayTree[smallestIndex]) > 0)
+            {
+                //swap, they are out of order...
+                swap(parentIndex, smallestIndex);
+
+                //move to that child
+                parentIndex = smallestIndex;
+            }
+            else
+            {
+                //exit loop, we have reordered the heap (short-circuit)
+                break;
+            }
+        }
+    }
+
+    private void checkForEmptyHeap()
+    {
+        //empty heap?
+        if (isEmpty())
+        {
+            throw new IllegalStateException("The heap is empty");
+        }
     }
 
     @Override
     public T peek()
     {
+        checkForEmptyHeap();
+
         return null;
     }
 
     @Override
     public int size()
     {
-        return 0;
+        return nextUnusedIndex - 1;
     }
 
     @Override
     public boolean isEmpty()
     {
-        return false;
+        return size() == 0;
     }
 
     @Override
