@@ -16,7 +16,8 @@ import java.util.Set;
 public class MyGraph<V> implements IDirectedGraph<V>, IWeightedGraph<V>
 {
     private Map<V, Node> adjLists;
-    private int size;
+    private int vertexSize;
+    private int edgeSize;
 
     public MyGraph()
     {
@@ -33,7 +34,7 @@ public class MyGraph<V> implements IDirectedGraph<V>, IWeightedGraph<V>
         }
 
         adjLists.put(vertex, null);
-        size++;
+        vertexSize++;
         return true;
     }
 
@@ -41,7 +42,7 @@ public class MyGraph<V> implements IDirectedGraph<V>, IWeightedGraph<V>
     public boolean addEdge(V tail, V head)
     {
         //preconditions...
-        /*if (!containsVertex(tail) || !containsVertex(head)) //missing vertex
+        if (!containsVertex(tail) || !containsVertex(head)) //missing vertex
         {
             return false;
         }
@@ -49,7 +50,7 @@ public class MyGraph<V> implements IDirectedGraph<V>, IWeightedGraph<V>
         else if (containsEdge(tail, head)) //edge already exists
         {
             return false;
-        }*/
+        }
 
         //otherwise, enter the vertex
         if (adjLists.get(tail) == null) //is the adj list empty?
@@ -63,18 +64,33 @@ public class MyGraph<V> implements IDirectedGraph<V>, IWeightedGraph<V>
             newNode.next = adjLists.get(tail);
             adjLists.put(tail, newNode);
         }
+        edgeSize++;
         return true;
     }
 
     @Override
     public boolean containsVertex(V search)
     {
-        return false;
+        return adjLists.containsKey(search);
     }
 
     @Override
     public boolean containsEdge(V tail, V head)
     {
+        if (!adjLists.containsKey(tail))
+        {
+            return false;
+        }
+
+        Node list = adjLists.get(tail);
+        while (list != null)
+        {
+            if (list.vertex.equals(head))
+            {
+                return true;
+            }
+            list = list.next;
+        }
         return false;
     }
 
@@ -93,31 +109,33 @@ public class MyGraph<V> implements IDirectedGraph<V>, IWeightedGraph<V>
     @Override
     public void clear()
     {
-
+        adjLists.clear();
+        vertexSize = 0;
+        edgeSize = 0;
     }
 
     @Override
     public int vertexSize()
     {
-        return 0;
+        return vertexSize;
     }
 
     @Override
     public int edgeSize()
     {
-        return 0;
+        return edgeSize;
     }
 
     @Override
     public boolean isVertexSetEmpty()
     {
-        return false;
+        return vertexSize == 0;
     }
 
     @Override
     public boolean isEdgeSetEmpty()
     {
-        return false;
+        return edgeSize == 0;
     }
 
     @Override
