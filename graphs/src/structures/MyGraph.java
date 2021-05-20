@@ -180,6 +180,31 @@ public class MyGraph<V> implements IDirectedGraph<V>, IWeightedGraph<V>
         return 0;
     }
 
+    @Override
+    public String toString()
+    {
+        //this builder will help us assemble a string without unnecessary string objects being created
+        StringBuilder builder = new StringBuilder();
+
+        //print a visualization of the graph
+        for (V key : adjLists.keySet())
+        {
+            //print the vertex (key)
+            builder.append(key).append(": ");
+
+            //print the elements in the adjacency list
+            Node list = adjLists.get(key);
+            while (list != null)
+            {
+                builder.append(list.vertex).append(" -> ");
+                list = list.next;
+            }
+            builder.append("\n");
+        }
+
+        return builder.toString();
+    }
+
     //Node class for our adjacency lists
     private class Node
     {
