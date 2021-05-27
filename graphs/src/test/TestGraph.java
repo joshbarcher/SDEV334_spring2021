@@ -13,10 +13,12 @@ public class TestGraph
         letterGraph.addVertex("c");
 
         letterGraph.addEdge("a", "b");
-        letterGraph.addEdge("a", "c");
+        letterGraph.addEdge("b", "a");
         letterGraph.addEdge("b", "c");
         letterGraph.addEdge("c", "b");
+        letterGraph.addEdge("c", "a");
+        letterGraph.addEdge("a", "c");
 
-        System.out.println(letterGraph);
+        System.out.println(letterGraph.bfs("a"));
     }
 }

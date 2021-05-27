@@ -203,18 +203,21 @@ public class MyGraph<V> implements IDirectedGraph<V>, IWeightedGraph<V>
         {
             //visit the next vertex
             V removed = queue.remove();
-            seen.add(removed);
-            traversal.add(removed);
-
-            //add adjacent vertices if not visited yet
-            Node node = adjLists.get(removed);
-            while (node != null)
+            if (!seen.contains(removed))
             {
-                if (!seen.contains(node.vertex))
+                seen.add(removed);
+                traversal.add(removed);
+
+                //add adjacent vertices if not visited yet
+                Node node = adjLists.get(removed);
+                while (node != null)
                 {
-                    queue.add(node.vertex);
+                    if (!seen.contains(node.vertex))
+                    {
+                        queue.add(node.vertex);
+                    }
+                    node = node.next;
                 }
-                node = node.next;
             }
         }
         return traversal;
