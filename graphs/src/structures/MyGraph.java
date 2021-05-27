@@ -3,9 +3,7 @@ package structures;
 import adts.IDirectedGraph;
 import adts.IWeightedGraph;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This is a graph that is directed and weighted. The graph
@@ -46,7 +44,6 @@ public class MyGraph<V> implements IDirectedGraph<V>, IWeightedGraph<V>
         {
             return false;
         }
-        //TODO I think this will be redudant to traverse the LL twice!
         else if (containsEdge(tail, head)) //edge already exists
         {
             return false;
@@ -184,6 +181,43 @@ public class MyGraph<V> implements IDirectedGraph<V>, IWeightedGraph<V>
     public boolean isGraphStronglyConnected()
     {
         return false;
+    }
+
+    @Override
+    public List<V> dfs(V source)
+    {
+        return null;
+    }
+
+    @Override
+    public List<V> bfs(V source)
+    {
+        //supplemental structures
+        Set<V> seen = new HashSet<>();
+        List<V> traversal = new ArrayList<>();
+        Queue<V> queue = new LinkedList<>();
+
+        //add the source and loop
+        queue.add(source);
+        while (!queue.isEmpty())
+        {
+            //visit the next vertex
+            V removed = queue.remove();
+            seen.add(removed);
+            traversal.add(removed);
+
+            //add adjacent vertices if not visited yet
+            Node node = adjLists.get(removed);
+            while (node != null)
+            {
+                if (!seen.contains(node.vertex))
+                {
+                    queue.add(node.vertex);
+                }
+                node = node.next;
+            }
+        }
+        return traversal;
     }
 
     @Override

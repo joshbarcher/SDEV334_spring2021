@@ -2,6 +2,7 @@ package adts;
 
 import structures.Edge;
 
+import java.util.List;
 import java.util.Set;
 
 public interface IDirectedGraph<V>
@@ -32,6 +33,10 @@ public interface IDirectedGraph<V>
     int outDegree(V source);
     boolean isGraphWeaklyConnected();
     boolean isGraphStronglyConnected();
+
+    //traversal methods
+    List<V> dfs(V source);
+    List<V> bfs(V source);
 }
 
 
