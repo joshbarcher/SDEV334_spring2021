@@ -19,6 +19,6 @@ public class TestGraph
         letterGraph.addEdge("c", "a");
         letterGraph.addEdge("a", "c");
 
-        System.out.println(letterGraph.bfs("a"));
+        System.out.println(letterGraph.bfsWithMaps("a"));
     }
 }

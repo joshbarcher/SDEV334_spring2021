@@ -189,6 +189,41 @@ public class MyGraph<V> implements IDirectedGraph<V>, IWeightedGraph<V>
         return null;
     }
 
+    public Map<V, V> bfsWithMaps(V source)
+    {
+        //supplemental structures
+        Set<V> seen = new HashSet<>();
+        Map<V, V> traversal = new HashMap<>();
+        Queue<V> queue = new LinkedList<>();
+
+        //add the source and loop
+        V lastVertexVisited = null;
+        queue.add(source);
+        while (!queue.isEmpty())
+        {
+            //visit the next vertex
+            V removed = queue.remove();
+            if (!seen.contains(removed))
+            {
+                seen.add(removed);
+                traversal.put(removed, lastVertexVisited);
+                lastVertexVisited = removed;
+
+                //add adjacent vertices if not visited yet
+                Node node = adjLists.get(removed);
+                while (node != null)
+                {
+                    if (!seen.contains(node.vertex))
+                    {
+                        queue.add(node.vertex);
+                    }
+                    node = node.next;
+                }
+            }
+        }
+        return traversal;
+    }
+
     @Override
     public List<V> bfs(V source)
     {
