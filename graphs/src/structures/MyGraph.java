@@ -189,38 +189,35 @@ public class MyGraph<V> implements IDirectedGraph<V>, IWeightedGraph<V>
         return null;
     }
 
-    public Map<V, V> bfsWithMaps(V source)
+    public Map<V, V> bfsWithMaps(V start)
     {
-        //supplemental structures
         Set<V> seen = new HashSet<>();
         Map<V, V> traversal = new HashMap<>();
-        Queue<V> queue = new LinkedList<>();
+        Queue<V> bfsQueue = new LinkedList<>();
 
-        //add the source and loop
-        V lastVertexVisited = null;
-        queue.add(source);
-        while (!queue.isEmpty())
+        //add the first element
+        bfsQueue.add(start);
+        traversal.put(start, null);
+
+        while (!bfsQueue.isEmpty())
         {
-            //visit the next vertex
-            V removed = queue.remove();
-            if (!seen.contains(removed))
-            {
-                seen.add(removed);
-                traversal.put(removed, lastVertexVisited);
-                lastVertexVisited = removed;
+            V nextElement = bfsQueue.poll();
+            seen.add(nextElement);
 
-                //add adjacent vertices if not visited yet
-                Node node = adjLists.get(removed);
-                while (node != null)
+            //add adjacent vertices
+            //add adjacent vertices if not visited yet
+            Node node = adjLists.get(nextElement);
+            while (node != null)
+            {
+                if (!seen.contains(node.vertex))
                 {
-                    if (!seen.contains(node.vertex))
-                    {
-                        queue.add(node.vertex);
-                    }
-                    node = node.next;
+                    traversal.put(node.vertex, nextElement);
+                    bfsQueue.add(node.vertex);
                 }
+                node = node.next;
             }
         }
+
         return traversal;
     }
 
